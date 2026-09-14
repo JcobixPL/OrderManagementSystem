@@ -2,4 +2,10 @@
   <Folder Name="/src/">
     <Project Path="src/OrderManagement.Api/OrderManagement.Api.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Products/">
+    <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Application/OrderManagement.Modules.Products.Application.csproj" />
+    <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Domain/OrderManagement.Modules.Products.Domain.csproj" />
+    <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Infrastructure/OrderManagement.Modules.Products.Infrastructure.csproj" />
+  </Folder>
 </Solution>

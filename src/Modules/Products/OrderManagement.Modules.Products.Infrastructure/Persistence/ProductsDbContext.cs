@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderManagement.Modules.Products.Application.Abstractions;
 using OrderManagement.Modules.Products.Domain.Entities;
 
 namespace OrderManagement.Modules.Products.Infrastructure.Persistence;
 
-public sealed class ProductsDbContext : DbContext
+public sealed class ProductsDbContext : DbContext, IProductsUnitOfWork
 {
     public ProductsDbContext(DbContextOptions<ProductsDbContext> options) : base(options) { }
 

@@ -10,11 +10,16 @@ var connectionString = builder.Configuration.GetConnectionString("Database")
 
 builder.Services.AddProductsModule(connectionString);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

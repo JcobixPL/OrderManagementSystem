@@ -33,6 +33,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             DuplicateProductSkuException =>
                 StatusCodes.Status409Conflict,
 
+            ProductNotFoundException =>
+                StatusCodes.Status404NotFound,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -47,6 +50,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         
             DuplicateProductSkuException =>
                 "Conflict",
+
+            ProductNotFoundException =>
+                "Resource not found",
 
             _ =>
                 "An unexpected error occured"

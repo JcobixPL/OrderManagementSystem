@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Api.Contracts.Products;
 using OrderManagement.Modules.Products.Application.DTOs;
+using OrderManagement.Modules.Products.Application.Features.Products.ChangePrice;
 using OrderManagement.Modules.Products.Application.Features.Products.Create;
 using OrderManagement.Modules.Products.Application.Features.Products.GetAll;
 using OrderManagement.Modules.Products.Application.Features.Products.GetById;
@@ -65,5 +67,21 @@ public sealed class ProductsController : ControllerBase
             return NotFound();
 
         return Ok(product);
+    }
+
+    [HttpPatch("{id:guid}/price")]
+    public async Task<IActionResult> ChangePrice(
+        Guid id,
+        ChangeProductPriceRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new ChangeProductPriceCommand(
+                id,
+                request.Price,
+                request.Currency),
+            cancellationToken);
+
+        return NoContent();
     }
 }

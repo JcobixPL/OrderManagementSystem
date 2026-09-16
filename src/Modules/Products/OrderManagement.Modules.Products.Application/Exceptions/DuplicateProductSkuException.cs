@@ -3,7 +3,7 @@
 public sealed class DuplicateProductSkuException : Exception
 {
     public DuplicateProductSkuException(string sku)
-        : base($"Product with SKU {sku} already exists.")
+        : base($"Product with SKU '{sku}' already exists.")
     {
         Sku = sku;
     }

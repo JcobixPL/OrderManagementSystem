@@ -37,6 +37,8 @@ public sealed class Product
 
     public void ChangePrice(Money newPrice)
     {
+        ArgumentNullException.ThrowIfNull(newPrice);
+
         Price = newPrice;
         UpdatedAt = DateTimeOffset.UtcNow;
     }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Products.Application.Abstractions;
 using OrderManagement.Modules.Products.Application.Features.Products.Create;
 using OrderManagement.Modules.Products.Infrastructure.Persistence;
+using OrderManagement.Modules.Products.Infrastructure.Queries;
 using OrderManagement.Modules.Products.Infrastructure.Repositories;
 
 namespace OrderManagement.Modules.Products.Infrastructure;
@@ -23,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductsUnitOfWork>(sp =>
            sp.GetRequiredService<ProductsDbContext>());
+        services.AddScoped<IProductReadService, ProductReadService>();
 
         return services;
     }

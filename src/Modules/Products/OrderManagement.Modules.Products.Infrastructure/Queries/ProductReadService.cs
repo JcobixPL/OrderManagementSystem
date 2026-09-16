@@ -21,8 +21,8 @@ internal sealed class ProductReadService : IProductReadService
         ProductQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        var pageNumber = Math.Max(1, parameters.PageNumber);
-        var pageSize = Math.Clamp(parameters.PageSize, 1, MaxPageSize);
+        var pageNumber = parameters.PageNumber;
+        var pageSize = parameters.PageSize;
 
         var query = _dbContext.Products.AsNoTracking().AsQueryable();
 

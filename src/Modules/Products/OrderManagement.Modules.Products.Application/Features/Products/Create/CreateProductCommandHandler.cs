@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OrderManagement.Modules.Products.Application.Abstractions;
+using OrderManagement.Modules.Products.Application.Exceptions;
 using OrderManagement.Modules.Products.Domain.Entities;
 
 namespace OrderManagement.Modules.Products.Application.Features.Products.Create;
@@ -20,9 +21,7 @@ internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProduc
         CancellationToken cancellationToken)
     {
         if (await _productRepository.ExistsBySkuAsync(request.Sku, cancellationToken))
-        {
-            throw new InvalidOperationException($"A product with SKU '{request.Sku}' already exists.");
-        }
+            throw new DuplicateProductSkuException(request.Sku);
 
         var price = Money.Create(
             request.Price,

@@ -1,3 +1,4 @@
+using OrderManagement.Api.Exceptions;
 using OrderManagement.Modules.Products.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,9 @@ var connectionString = builder.Configuration.GetConnectionString("Database")
 
 builder.Services.AddProductsModule(connectionString);
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -21,6 +25,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

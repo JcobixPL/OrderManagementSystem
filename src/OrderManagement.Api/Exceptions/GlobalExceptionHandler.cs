@@ -36,6 +36,12 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             ProductNotFoundException =>
                 StatusCodes.Status404NotFound,
 
+            ProductAlreadyActiveException =>
+                StatusCodes.Status409Conflict,
+
+            ProductAlreadyInactiveException =>
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -53,6 +59,12 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             ProductNotFoundException =>
                 "Resource not found",
+
+            ProductAlreadyInactiveException =>
+                "Conflict",
+
+            ProductAlreadyActiveException =>
+                "Conflict",
 
             _ =>
                 "An unexpected error occured"

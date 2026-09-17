@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Contracts.Products;
 using OrderManagement.Modules.Products.Application.DTOs;
+using OrderManagement.Modules.Products.Application.Features.Products.Activate;
 using OrderManagement.Modules.Products.Application.Features.Products.ChangePrice;
 using OrderManagement.Modules.Products.Application.Features.Products.Create;
+using OrderManagement.Modules.Products.Application.Features.Products.Deactivate;
 using OrderManagement.Modules.Products.Application.Features.Products.GetAll;
 using OrderManagement.Modules.Products.Application.Features.Products.GetById;
+using OrderManagement.Modules.Products.Application.Features.Products.Rename;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -80,6 +83,43 @@ public sealed class ProductsController : ControllerBase
                 id,
                 request.Price,
                 request.Currency),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/name")]
+    public async Task<IActionResult> Rename(
+        Guid id,
+        RenameProductRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new RenameProductCommand(id, request.Name),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/deactivate")]
+    public async Task<IActionResult> Deactivate(
+    Guid id,
+    CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new DeactivateProductCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/activate")]
+    public async Task<IActionResult> Activate(
+    Guid id,
+    CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new ActivateProductCommand(id),
             cancellationToken);
 
         return NoContent();

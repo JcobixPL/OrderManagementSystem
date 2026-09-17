@@ -29,12 +29,12 @@ Current structure:
 
 ```text
 src/
-??? OrderManagement.Api
-??? Modules/
-    ??? Products/
-        ??? OrderManagement.Modules.Products.Domain
-        ??? OrderManagement.Modules.Products.Application
-        ??? OrderManagement.Modules.Products.Infrastructure
+├── OrderManagement.Api
+└── Modules/
+    └── Products/
+        ├── OrderManagement.Modules.Products.Domain
+        ├── OrderManagement.Modules.Products.Application
+        └── OrderManagement.Modules.Products.Infrastructure
 ```
 
 ## Implemented Features

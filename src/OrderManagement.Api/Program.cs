@@ -1,5 +1,6 @@
 using OrderManagement.Api.Exceptions;
 using OrderManagement.Modules.Products.Infrastructure;
+using OrderManagement.Modules.Inventory.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("Database")
     ?? throw new InvalidOperationException("Connection string 'Database' not found.");
 
 builder.Services.AddProductsModule(connectionString);
+builder.Services.AddInventoryModule(connectionString);
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

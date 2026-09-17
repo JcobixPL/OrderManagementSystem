@@ -9,7 +9,7 @@ public sealed class InventoryDbContext : DbContext, IInventoryUnitOfWork
     public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options) { }
 
     public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
-
+    this_will_not_compile
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("inventory");

@@ -31,4 +31,13 @@ internal sealed class InventoryRepository : IInventoryRepository
         await _dbContext.InventoryItems.AddAsync(
             inventoryItem, cancellationToken);
     }
+
+    public Task<bool> ExistsByProductIdAsync(
+        Guid productId,
+        CancellationToken cancellationToken = default)
+    {
+        return _dbContext.InventoryItems.AnyAsync(
+            x => x.ProductId == productId,
+            cancellationToken);
+    }
 }

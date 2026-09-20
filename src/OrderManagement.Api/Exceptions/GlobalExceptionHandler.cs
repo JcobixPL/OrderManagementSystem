@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Modules.Inventory.Application.Exceptions;
 using OrderManagement.Modules.Products.Application.Exceptions;
 
 namespace OrderManagement.Api.Exceptions;
@@ -42,6 +43,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             ProductAlreadyInactiveException =>
                 StatusCodes.Status409Conflict,
 
+            InventoryItemAlreadyExistsException =>
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -64,6 +68,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
                 "Conflict",
 
             ProductAlreadyActiveException =>
+                "Conflict",
+
+            InventoryItemAlreadyExistsException =>
                 "Conflict",
 
             _ =>

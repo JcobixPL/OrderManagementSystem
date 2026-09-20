@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Inventory.Application.Abstractions;
+using OrderManagement.Modules.Inventory.Application.Features.Inventory.Create;
 using OrderManagement.Modules.Inventory.Infrastructure.Persistence;
 using OrderManagement.Modules.Inventory.Infrastructure.Repositories;
 
@@ -14,6 +16,14 @@ public static class DependencyInjection
     {
         services.AddDbContext<InventoryDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddMediatR(config =>
+            config.RegisterServicesFromAssembly(
+                typeof(CreateInventoryItemCommand).Assembly));
+
+        services.AddValidatorsFromAssembly(
+            typeof(CreateInventoryItemCommand).Assembly,
+            includeInternalTypes: true);
 
         services.AddScoped<IInventoryRepository, InventoryRepository>();
 

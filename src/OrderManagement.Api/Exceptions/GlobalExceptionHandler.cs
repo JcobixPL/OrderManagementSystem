@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Modules.Inventory.Application.Exceptions;
+using OrderManagement.Modules.Inventory.Domain.Exceptions;
 using OrderManagement.Modules.Products.Application.Exceptions;
 
 namespace OrderManagement.Api.Exceptions;
@@ -46,6 +47,15 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InventoryItemAlreadyExistsException =>
                 StatusCodes.Status409Conflict,
 
+            InventoryItemNotFoundException =>
+                StatusCodes.Status404NotFound,
+
+            InsufficientStockException =>
+                StatusCodes.Status409Conflict,
+
+            InsufficientReservedStockException =>
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -71,6 +81,15 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
                 "Conflict",
 
             InventoryItemAlreadyExistsException =>
+                "Conflict",
+
+            InventoryItemNotFoundException =>
+                "Resource not found",
+
+            InsufficientStockException =>
+                "Conflict",
+
+            InsufficientReservedStockException =>
                 "Conflict",
 
             _ =>

@@ -2,10 +2,10 @@
 
 namespace OrderManagement.Modules.Inventory.Application.Features.Inventory.Create;
 
-internal sealed class CreateInventoryItemValidator
+internal sealed class CreateInventoryItemCommandValidator
     : AbstractValidator<CreateInventoryItemCommand>
 {
-    public CreateInventoryItemValidator()
+    public CreateInventoryItemCommandValidator()
     {
         RuleFor(x => x.ProductId)
             .NotEmpty()

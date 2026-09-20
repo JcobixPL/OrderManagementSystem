@@ -54,7 +54,7 @@ public sealed class InventoryItem
 
         AvailableQuantity -= quantity;
         ReservedQuantity += quantity;
-        UpdatedAt = DateTimeOffset.Now;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 
     public void ReleaseReservation(int quantity)

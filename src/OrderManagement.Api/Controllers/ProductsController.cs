@@ -25,11 +25,22 @@ public sealed class ProductsController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(
-        CreateProductCommand command,
-        CancellationToken cancellationToken)
+    CreateProductRequest request,
+    CancellationToken cancellationToken)
     {
+        var command = new CreateProductCommand(
+            request.Sku,
+            request.Name,
+            request.Description,
+            request.Price,
+            request.Currency);
+
         var productId = await _sender.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = productId }, productId);
+
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = productId },
+            productId);
     }
 
     [HttpGet]

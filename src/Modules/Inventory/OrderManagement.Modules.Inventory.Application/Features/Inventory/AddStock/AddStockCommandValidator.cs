@@ -2,10 +2,10 @@
 
 namespace OrderManagement.Modules.Inventory.Application.Features.Inventory.AddStock;
 
-internal sealed class AddStockValidator
+internal sealed class AddStockCommandValidator
     : AbstractValidator<AddStockCommand>
 {
-    public AddStockValidator()
+    public AddStockCommandValidator()
     {
         RuleFor(x => x.ProductId)
             .NotEmpty()

@@ -5,6 +5,7 @@ using OrderManagement.Modules.Inventory.Application.DTOs;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.AddStock;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.ConfirmRemoval;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.Create;
+using OrderManagement.Modules.Inventory.Application.Features.Inventory.GetAll;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.GetByProductId;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.ReleaseReservation;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.Reserve;
@@ -20,6 +21,31 @@ public sealed class InventoryController : ControllerBase
     public InventoryController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<PagedResult<InventoryItemDto>>> GetAll(
+    [FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10,
+    [FromQuery] bool? hasAvailableStock = null,
+    [FromQuery] bool? hasReservedStock = null,
+    [FromQuery] string? sortBy = null,
+    [FromQuery] string? sortDirection = null,
+    CancellationToken cancellationToken = default)
+    {
+        var parameters = new InventoryQueryParameters(
+            pageNumber,
+            pageSize,
+            hasAvailableStock,
+            hasReservedStock,
+            sortBy,
+            sortDirection);
+
+        var result = await _sender.Send(
+            new GetInventoryQuery(parameters),
+            cancellationToken);
+
+        return Ok(result);
     }
 
     [HttpGet("{productId:guid}")]

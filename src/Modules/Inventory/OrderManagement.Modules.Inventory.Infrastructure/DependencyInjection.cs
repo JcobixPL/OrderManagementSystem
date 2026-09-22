@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FluentValidation;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Inventory.Application.Abstractions;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.Create;
 using OrderManagement.Modules.Inventory.Infrastructure.Persistence;
+using OrderManagement.Modules.Inventory.Infrastructure.Queries;
 using OrderManagement.Modules.Inventory.Infrastructure.Repositories;
 
 namespace OrderManagement.Modules.Inventory.Infrastructure;
@@ -29,6 +30,8 @@ public static class DependencyInjection
 
         services.AddScoped<IInventoryUnitOfWork>(
             sp => sp.GetRequiredService<InventoryDbContext>());
+
+        services.AddScoped<IInventoryReadService, InventoryReadService>();
 
         return services;
     }

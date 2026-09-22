@@ -18,6 +18,7 @@ The project is being developed as a more advanced backend application focused on
 - CQRS
 - Modular Monolith
 - Swagger / OpenAPI
+- GitHub Actions
 
 ## Architecture
 
@@ -31,10 +32,14 @@ Current structure:
 src/
 ├── OrderManagement.Api
 └── Modules/
-    └── Products/
-        ├── OrderManagement.Modules.Products.Domain
-        ├── OrderManagement.Modules.Products.Application
-        └── OrderManagement.Modules.Products.Infrastructure
+    ├── Products/
+    │   ├── OrderManagement.Modules.Products.Domain
+    │   ├── OrderManagement.Modules.Products.Application
+    │   └── OrderManagement.Modules.Products.Infrastructure
+    └── Inventory/
+        ├── OrderManagement.Modules.Inventory.Domain
+        ├── OrderManagement.Modules.Inventory.Application
+        └── OrderManagement.Modules.Inventory.Infrastructure
 ```
 
 ## Implemented Features
@@ -51,10 +56,29 @@ Currently implemented:
 - Rename product
 - Activate / deactivate product
 - Duplicate SKU detection
+
+### Inventory Module
+
+Currently implemented:
+
+- Create inventory item
+- Get inventory by product ID
+- Paginated inventory listing
+- Filtering and sorting
+- Add stock
+- Reserve stock
+- Release stock reservation
+- Confirm stock removal
+- Inventory validation and business conflict handling
+
+### Infrastructure
+
+- PostgreSQL persistence with EF Core migrations
+- Docker Compose
 - FluentValidation
 - Global exception handling
 - ProblemDetails responses
-- PostgreSQL persistence with EF Core migrations
+- GitHub Actions CI pipeline
 
 ## Docker
 
@@ -70,13 +94,11 @@ Sensitive configuration is kept outside the repository using environment variabl
 
 Planned next steps include:
 
-- Inventory module
 - Orders module
 - Payments module
 - Identity and authorization
 - Unit and integration tests
 - Testcontainers
-- GitHub Actions CI/CD
 - RabbitMQ
 - .NET Worker Service
 - Redis

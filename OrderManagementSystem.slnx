@@ -8,6 +8,11 @@
     <Project Path="src/Modules/Inventory/OrderManagement.Modules.Inventory.Domain/OrderManagement.Modules.Inventory.Domain.csproj" />
     <Project Path="src/Modules/Inventory/OrderManagement.Modules.Inventory.Infrastructure/OrderManagement.Modules.Inventory.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/Orders/">
+    <Project Path="src/Modules/Orders/OrderManagement.Modules.Orders.Application/OrderManagement.Modules.Orders.Application.csproj" />
+    <Project Path="src/Modules/Orders/OrderManagement.Modules.Orders.Domain/OrderManagement.Modules.Orders.Domain.csproj" />
+    <Project Path="src/Modules/Orders/OrderManagement.Modules.Orders.Infrastructure/OrderManagement.Modules.Orders.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Products/">
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Application/OrderManagement.Modules.Products.Application.csproj" />
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Domain/OrderManagement.Modules.Products.Domain.csproj" />

@@ -18,4 +18,7 @@
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Domain/OrderManagement.Modules.Products.Domain.csproj" />
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Infrastructure/OrderManagement.Modules.Products.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OrderManagement.Modules.Inventory.UnitTests/OrderManagement.Modules.Inventory.UnitTests.csproj" />
+  </Folder>
 </Solution>

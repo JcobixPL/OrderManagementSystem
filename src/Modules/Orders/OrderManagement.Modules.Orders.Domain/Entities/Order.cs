@@ -1,4 +1,5 @@
 ﻿using OrderManagement.Modules.Orders.Domain.Enums;
+using OrderManagement.Modules.Orders.Domain.Exceptions;
 
 namespace OrderManagement.Modules.Orders.Domain.Entities;
 
@@ -54,8 +55,8 @@ public sealed class Order
     {
         if (Status != OrderStatus.AwaitingPayment)
         {
-            throw new InvalidOperationException(
-                "Items can only be added to an order awaiting payment.");
+            throw new InvalidOrderStatusTransitionException(
+                Status, "AddItem");
         }
 
         if (!string.Equals(
@@ -63,14 +64,14 @@ public sealed class Order
             currency,
             StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidOperationException(
-                "Order item currency must match order currency.");
+            throw new OrderCurrencyMismatchException(
+                Currency,
+                currency);
         }
 
         if (_items.Any(x => x.ProductId == productId))
         {
-            throw new InvalidOperationException(
-                "Product already exists in the order.");
+            throw new DuplicateOrderItemException(productId);
         }
 
         var orderItem = new OrderItem(
@@ -89,8 +90,9 @@ public sealed class Order
     {
         if (Status != OrderStatus.AwaitingPayment)
         {
-            throw new InvalidOperationException(
-                "Only an order awaiting payment can be marked as paid.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "MarkAsPaid");
         }
 
         Status = OrderStatus.Paid;
@@ -101,8 +103,9 @@ public sealed class Order
     {
         if (Status != OrderStatus.Paid)
         {
-            throw new InvalidOperationException(
-                "Only a paid order can start processing.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "StartProcessing");
         }
 
         Status = OrderStatus.Processing;
@@ -113,8 +116,9 @@ public sealed class Order
     {
         if (Status != OrderStatus.Processing)
         {
-            throw new InvalidOperationException(
-                "Only an order being processed can be marked as ready for shipment.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "MarkReadyForShipment");
         }
 
         Status = OrderStatus.ReadyForShipment;
@@ -125,8 +129,9 @@ public sealed class Order
     {
         if (Status != OrderStatus.ReadyForShipment)
         {
-            throw new InvalidOperationException(
-                "Only an order ready for shipment can be marked as shipped.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "MarkAsShipped");
         }
 
         Status = OrderStatus.Shipped;
@@ -137,8 +142,9 @@ public sealed class Order
     {
         if (Status != OrderStatus.Shipped)
         {
-            throw new InvalidOperationException(
-                "Only a shipped order can be marked as delivered.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "MarkAsDelivered");
         }
 
         Status = OrderStatus.Delivered;
@@ -152,8 +158,9 @@ public sealed class Order
             or OrderStatus.Cancelled
             or OrderStatus.Expired)
         {
-            throw new InvalidOperationException(
-                "The order cannot be cancelled in its current status.");
+            throw new InvalidOrderStatusTransitionException(
+                Status,
+                "Cancel");
         }
 
         Status = OrderStatus.Cancelled;

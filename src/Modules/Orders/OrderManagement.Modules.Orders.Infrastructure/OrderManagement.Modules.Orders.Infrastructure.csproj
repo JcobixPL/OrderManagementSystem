@@ -3,6 +3,8 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderManagement.Modules.Orders.Application\OrderManagement.Modules.Orders.Application.csproj" />
     <ProjectReference Include="..\OrderManagement.Modules.Orders.Domain\OrderManagement.Modules.Orders.Domain.csproj" />
+    <ProjectReference Include="..\..\Products\OrderManagement.Modules.Products.Application\OrderManagement.Modules.Products.Application.csproj" />
+    <ProjectReference Include="..\..\Inventory\OrderManagement.Modules.Inventory.Application\OrderManagement.Modules.Inventory.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Orders.Application.Abstractions;
+using OrderManagement.Modules.Orders.Application.Features.Orders.Create;
+using OrderManagement.Modules.Orders.Infrastructure.Integrations;
 using OrderManagement.Modules.Orders.Infrastructure.Persistence;
 using OrderManagement.Modules.Orders.Infrastructure.Repositories;
 
@@ -15,10 +18,20 @@ public static class DependencyInjection
         services.AddDbContext<OrdersDbContext>(options =>
             options.UseNpgsql(connectionString));
 
-        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddMediatR(config =>
+            config.RegisterServicesFromAssembly(
+                typeof(CreateOrderCommand).Assembly));
 
-        services.AddScoped<IOrdersUnitOfWork>(sp =>
-            sp.GetRequiredService<OrdersDbContext>());
+        services.AddValidatorsFromAssembly(
+            typeof(CreateOrderCommand).Assembly,
+            includeInternalTypes: true);
+
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProductCatalog, ProductCatalog>();
+        services.AddScoped<IInventoryService, InventoryService>();
+
+        services.AddScoped<IOrdersUnitOfWork>(
+            sp => sp.GetRequiredService<OrdersDbContext>());
 
         return services;
     }

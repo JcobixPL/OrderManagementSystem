@@ -1,6 +1,7 @@
 using OrderManagement.Api.Exceptions;
 using OrderManagement.Modules.Products.Infrastructure;
 using OrderManagement.Modules.Inventory.Infrastructure;
+using OrderManagement.Modules.Orders.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("Database")
 
 builder.Services.AddProductsModule(connectionString);
 builder.Services.AddInventoryModule(connectionString);
+builder.Services.AddOrdersModule(connectionString);
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

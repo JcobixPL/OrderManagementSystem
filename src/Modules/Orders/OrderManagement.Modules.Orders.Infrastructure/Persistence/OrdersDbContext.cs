@@ -4,7 +4,7 @@ using OrderManagement.Modules.Orders.Domain.Entities;
 
 namespace OrderManagement.Modules.Orders.Infrastructure.Persistence;
 
-internal sealed class OrdersDbContext : DbContext, IOrdersUnitOfWork
+public sealed class OrdersDbContext : DbContext, IOrdersUnitOfWork
 {
     public OrdersDbContext(DbContextOptions<OrdersDbContext> options) : base(options) { }
 
@@ -12,7 +12,7 @@ internal sealed class OrdersDbContext : DbContext, IOrdersUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("products");
+        modelBuilder.HasDefaultSchema("orders");
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(OrdersDbContext).Assembly

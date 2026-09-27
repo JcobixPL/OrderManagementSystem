@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Modules.Inventory.Application.Exceptions;
 using OrderManagement.Modules.Inventory.Domain.Exceptions;
 using OrderManagement.Modules.Orders.Application.Exceptions;
+using OrderManagement.Modules.Orders.Domain.Exceptions;
 using OrderManagement.Modules.Products.Application.Exceptions;
 
 namespace OrderManagement.Api.Exceptions;
@@ -66,6 +67,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             OrderNotFoundException =>
                 StatusCodes.Status404NotFound,
 
+            InvalidOrderStatusTransitionException =>
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -110,6 +114,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             OrderNotFoundException =>
                 "Order not found",
+
+            InvalidOrderStatusTransitionException =>
+                "Invalid order status transition",
 
             _ =>
                 "An unexpected error occured"

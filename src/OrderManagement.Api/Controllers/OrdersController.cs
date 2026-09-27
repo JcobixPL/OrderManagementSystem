@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Contracts.Orders;
 using OrderManagement.Modules.Orders.Application.Features.Orders.Create;
 using OrderManagement.Modules.Orders.Application.Features.Orders.GetById;
+using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsPaid;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -50,5 +51,17 @@ public sealed class OrdersController : ControllerBase
             nameof(GetById),
             new { id = orderId },
             new { id = orderId });
+    }
+
+    [HttpPatch("{id:guid}/mark-paid")]
+    public async Task<IActionResult> MarkAsPaid(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new MarkOrderAsPaidCommand(id),
+            cancellationToken);
+
+        return NoContent();
     }
 }

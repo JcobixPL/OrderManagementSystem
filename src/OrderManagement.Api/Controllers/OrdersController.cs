@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Contracts.Orders;
+using OrderManagement.Modules.Orders.Application.Features.Orders.Cancel;
 using OrderManagement.Modules.Orders.Application.Features.Orders.Create;
 using OrderManagement.Modules.Orders.Application.Features.Orders.GetById;
+using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsDelivered;
 using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsPaid;
 using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsShipped;
 using OrderManagement.Modules.Orders.Application.Features.Orders.MarkReadyForShipment;
@@ -70,8 +72,8 @@ public sealed class OrdersController : ControllerBase
 
     [HttpPatch("{id:guid}/start-processing")]
     public async Task<IActionResult> StartProcessing(
-    Guid id,
-    CancellationToken cancellationToken)
+        Guid id,
+        CancellationToken cancellationToken)
     {
         await _sender.Send(
             new StartOrderProcessingCommand(id),
@@ -82,8 +84,8 @@ public sealed class OrdersController : ControllerBase
 
     [HttpPatch("{id:guid}/ready-for-shipment")]
     public async Task<IActionResult> MarkReadyForShipment(
-    Guid id,
-    CancellationToken cancellationToken)
+        Guid id,
+        CancellationToken cancellationToken)
     {
         await _sender.Send(
             new MarkOrderReadyForShipmentCommand(id),
@@ -99,6 +101,30 @@ public sealed class OrdersController : ControllerBase
     {
         await _sender.Send(
             new MarkOrderAsShippedCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/deliver")]
+    public async Task<IActionResult> MarkAsDelivered(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new MarkOrderAsDeliveredCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/cancel")]
+    public async Task<IActionResult> Cancel(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new CancelOrderCommand(id),
             cancellationToken);
 
         return NoContent();

@@ -63,6 +63,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InactiveOrderProductException => 
                 StatusCodes.Status409Conflict,
 
+            OrderNotFoundException =>
+                StatusCodes.Status404NotFound,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -74,7 +77,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             KeyNotFoundException =>
                 "Resource not found",
-        
+
             DuplicateProductSkuException =>
                 "Conflict",
 
@@ -99,11 +102,14 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InsufficientReservedStockException =>
                 "Conflict",
 
-            OrderProductNotFoundException => 
+            OrderProductNotFoundException =>
                 "Product not found",
 
-            InactiveOrderProductException => 
+            InactiveOrderProductException =>
                 "Product is inactive",
+
+            OrderNotFoundException =>
+                "Order not found",
 
             _ =>
                 "An unexpected error occured"

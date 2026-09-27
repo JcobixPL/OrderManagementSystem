@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Contracts.Orders;
 using OrderManagement.Modules.Orders.Application.Features.Orders.Create;
+using OrderManagement.Modules.Orders.Application.Features.Orders.GetById;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -17,9 +18,15 @@ public sealed class OrdersController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetById(
+        Guid id,
+        CancellationToken cancellationToken)
     {
-        return Ok();
+        var order = await _sender.Send(
+            new GetOrderByIdQuery(id),
+            cancellationToken);
+
+        return Ok(order);
     }
 
     [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Inventory.Application.Abstractions;
@@ -12,11 +13,15 @@ namespace OrderManagement.Modules.Inventory.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInventoryModule(
-        this IServiceCollection services,
-        string connectionString)
+        this IServiceCollection services)
     {
-        services.AddDbContext<InventoryDbContext>(options =>
-            options.UseNpgsql(connectionString));
+        services.AddDbContext<InventoryDbContext>((serviceProvider, options) =>
+        {
+            var connection =
+                serviceProvider.GetRequiredService<NpgsqlConnection>();
+
+            options.UseNpgsql(connection);
+        });
 
         services.AddMediatR(config =>
             config.RegisterServicesFromAssembly(

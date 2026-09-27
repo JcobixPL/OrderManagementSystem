@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Modules\Orders\OrderManagement.Modules.Orders.Domain\OrderManagement.Modules.Orders.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\OrderManagement.Modules.Orders.Application\OrderManagement.Modules.Orders.Application.csproj" />
   </ItemGroup>
 
 </Project>

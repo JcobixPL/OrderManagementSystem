@@ -26,5 +26,10 @@ internal sealed class CreateOrderCommandValidator
                     .GreaterThan(0)
                     .WithMessage("Quantity must be greater than zero.");
             });
+
+        RuleFor(x => x.Items)
+            .Must(items =>
+                items.Select(x => x.ProductId).Distinct().Count() == items.Count)
+            .WithMessage("Order cannot contain duplicate products.");
     }
 }

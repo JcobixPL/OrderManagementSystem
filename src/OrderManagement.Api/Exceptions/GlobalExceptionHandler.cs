@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Modules.Inventory.Application.Exceptions;
 using OrderManagement.Modules.Inventory.Domain.Exceptions;
+using OrderManagement.Modules.Orders.Application.Exceptions;
 using OrderManagement.Modules.Products.Application.Exceptions;
 
 namespace OrderManagement.Api.Exceptions;
@@ -56,6 +57,12 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InsufficientReservedStockException =>
                 StatusCodes.Status409Conflict,
 
+            OrderProductNotFoundException => 
+                StatusCodes.Status404NotFound,
+
+            InactiveOrderProductException => 
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -91,6 +98,12 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             InsufficientReservedStockException =>
                 "Conflict",
+
+            OrderProductNotFoundException => 
+                "Product not found",
+
+            InactiveOrderProductException => 
+                "Product is inactive",
 
             _ =>
                 "An unexpected error occured"

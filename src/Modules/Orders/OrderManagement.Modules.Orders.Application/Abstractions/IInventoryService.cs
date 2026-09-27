@@ -11,4 +11,9 @@ public interface IInventoryService
         Guid productId,
         int quantity, 
         CancellationToken cancellationToken = default);
+
+    Task ConfirmRemovalAsync(
+        Guid productId,
+        int quantity,
+        CancellationToken cancellationToken = default);
 }

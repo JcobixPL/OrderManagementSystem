@@ -4,6 +4,9 @@ using OrderManagement.Api.Contracts.Orders;
 using OrderManagement.Modules.Orders.Application.Features.Orders.Create;
 using OrderManagement.Modules.Orders.Application.Features.Orders.GetById;
 using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsPaid;
+using OrderManagement.Modules.Orders.Application.Features.Orders.MarkAsShipped;
+using OrderManagement.Modules.Orders.Application.Features.Orders.MarkReadyForShipment;
+using OrderManagement.Modules.Orders.Application.Features.Orders.StartProcessing;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -60,6 +63,42 @@ public sealed class OrdersController : ControllerBase
     {
         await _sender.Send(
             new MarkOrderAsPaidCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/start-processing")]
+    public async Task<IActionResult> StartProcessing(
+    Guid id,
+    CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new StartOrderProcessingCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/ready-for-shipment")]
+    public async Task<IActionResult> MarkReadyForShipment(
+    Guid id,
+    CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new MarkOrderReadyForShipmentCommand(id),
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/ship")]
+    public async Task<IActionResult> MarkAsShipped(
+    Guid id,
+    CancellationToken cancellationToken)
+    {
+        await _sender.Send(
+            new MarkOrderAsShippedCommand(id),
             cancellationToken);
 
         return NoContent();

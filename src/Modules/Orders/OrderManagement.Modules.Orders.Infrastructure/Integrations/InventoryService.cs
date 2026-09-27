@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OrderManagement.Modules.Inventory.Application.Features.Inventory.ConfirmRemoval;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.ReleaseReservation;
 using OrderManagement.Modules.Inventory.Application.Features.Inventory.Reserve;
 using OrderManagement.Modules.Orders.Application.Abstractions;
@@ -31,6 +32,16 @@ internal sealed class InventoryService : IInventoryService
     {
         return _sender.Send(
             new ReserveStockCommand(productId, quantity),
+            cancellationToken);
+    }
+
+    public Task ConfirmRemovalAsync(
+        Guid productId,
+        int quantity,
+        CancellationToken cancellationToken = default)
+    {
+        return _sender.Send(
+            new ConfirmRemovalCommand(productId, quantity),
             cancellationToken);
     }
 }

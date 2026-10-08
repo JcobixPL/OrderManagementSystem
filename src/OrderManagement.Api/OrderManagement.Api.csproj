@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Modules\Products\OrderManagement.Modules.Products.Infrastructure\OrderManagement.Modules.Products.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Inventory\OrderManagement.Modules.Inventory.Infrastructure\OrderManagement.Modules.Inventory.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Orders\OrderManagement.Modules.Orders.Infrastructure\OrderManagement.Modules.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Identity\OrderManagement.Modules.Identity.Infrastructure\OrderManagement.Modules.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

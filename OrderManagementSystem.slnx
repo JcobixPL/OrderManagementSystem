@@ -3,6 +3,11 @@
     <Project Path="src/OrderManagement.Api/OrderManagement.Api.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/OrderManagement.Modules.Identity.Application/OrderManagement.Modules.Identity.Application.csproj" />
+    <Project Path="src/Modules/Identity/OrderManagement.Modules.Identity.Domain/OrderManagement.Modules.Identity.Domain.csproj" />
+    <Project Path="src/Modules/Identity/OrderManagement.Modules.Identity.Infrastructure/OrderManagement.Modules.Identity.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Inventory/">
     <Project Path="src/Modules/Inventory/OrderManagement.Modules.Inventory.Application/OrderManagement.Modules.Inventory.Application.csproj" />
     <Project Path="src/Modules/Inventory/OrderManagement.Modules.Inventory.Domain/OrderManagement.Modules.Inventory.Domain.csproj" />

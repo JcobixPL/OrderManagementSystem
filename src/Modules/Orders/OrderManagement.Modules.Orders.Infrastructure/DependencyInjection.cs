@@ -13,15 +13,11 @@ namespace OrderManagement.Modules.Orders.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddOrdersModule(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        string connectionString)
     {
-        services.AddDbContext<OrdersDbContext>((serviceProvider, options) =>
-        {
-            var connection =
-                serviceProvider.GetRequiredService<NpgsqlConnection>();
-
-            options.UseNpgsql(connection);
-        });
+        services.AddDbContext<OrdersDbContext>(options =>
+            options.UseNpgsql(connectionString));
 
         services.AddMediatR(config =>
             config.RegisterServicesFromAssembly(

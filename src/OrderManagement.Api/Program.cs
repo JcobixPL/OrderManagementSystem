@@ -1,6 +1,7 @@
 using Npgsql;
 using OrderManagement.Api.Exceptions;
 using OrderManagement.Api.Infrastructure.Transactions;
+using OrderManagement.Modules.Identity.Infrastructure;
 using OrderManagement.Modules.Inventory.Infrastructure;
 using OrderManagement.Modules.Orders.Application.Abstractions;
 using OrderManagement.Modules.Orders.Infrastructure;
@@ -18,9 +19,9 @@ builder.Services.AddScoped<NpgsqlConnection>(
     _ => new NpgsqlConnection(connectionString));
 
 builder.Services.AddProductsModule(connectionString);
-builder.Services.AddInventoryModule();
-builder.Services.AddOrdersModule();
-
+builder.Services.AddInventoryModule(connectionString);
+builder.Services.AddOrdersModule(connectionString);
+builder.Services.AddIdentityModule(connectionString);
 
 builder.Services.AddScoped<IOrdersTransaction, OrdersTransaction>();
 

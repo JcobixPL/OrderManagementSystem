@@ -13,15 +13,11 @@ namespace OrderManagement.Modules.Inventory.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInventoryModule(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        string connectionString)
     {
-        services.AddDbContext<InventoryDbContext>((serviceProvider, options) =>
-        {
-            var connection =
-                serviceProvider.GetRequiredService<NpgsqlConnection>();
-
-            options.UseNpgsql(connection);
-        });
+        services.AddDbContext<InventoryDbContext>(options =>
+            options.UseNpgsql(connectionString));
 
         services.AddMediatR(config =>
             config.RegisterServicesFromAssembly(

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Modules.Identity.Application.Exceptions;
 using OrderManagement.Modules.Inventory.Application.Exceptions;
 using OrderManagement.Modules.Inventory.Domain.Exceptions;
 using OrderManagement.Modules.Orders.Application.Exceptions;
@@ -70,6 +71,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InvalidOrderStatusTransitionException =>
                 StatusCodes.Status409Conflict,
 
+            EmailAlreadyInUseException =>
+                StatusCodes.Status409Conflict,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -117,6 +121,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             InvalidOrderStatusTransitionException =>
                 "Invalid order status transition",
+
+            EmailAlreadyInUseException =>
+                "Email already in use",
 
             _ =>
                 "An unexpected error occured"

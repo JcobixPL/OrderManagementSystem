@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Identity.Application.Abstractions;
 using OrderManagement.Modules.Identity.Application.Features.Auth.Register;
+using OrderManagement.Modules.Identity.Infrastructure.Authentication;
 using OrderManagement.Modules.Identity.Infrastructure.Persistence;
 using OrderManagement.Modules.Identity.Infrastructure.Repositories;
 using OrderManagement.Modules.Identity.Infrastructure.Security;
@@ -13,7 +15,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddIdentityModule(
         this IServiceCollection services,
-        string connectionString)
+        string connectionString,
+        IConfiguration configuration)
     {
         services.AddDbContext<IdentityDbContext>(options =>
             options.UseNpgsql(connectionString));
@@ -24,7 +27,12 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(
             typeof(RegisterCommand).Assembly,
-            includeInternalTypes: true);    
+            includeInternalTypes: true);
+
+        services.Configure<JwtOptions>(
+            configuration.GetSection(JwtOptions.SectionName));
+
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 

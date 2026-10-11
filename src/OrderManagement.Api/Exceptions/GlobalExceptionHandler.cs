@@ -74,6 +74,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             EmailAlreadyInUseException =>
                 StatusCodes.Status409Conflict,
 
+            InvalidCredentialsException =>
+                StatusCodes.Status401Unauthorized,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -124,6 +127,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             EmailAlreadyInUseException =>
                 "Email already in use",
+
+            InvalidCredentialsException =>
+                "Invalid credentials",
 
             _ =>
                 "An unexpected error occured"

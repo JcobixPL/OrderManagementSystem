@@ -32,4 +32,36 @@ internal sealed class CurrentUser : ICurrentUser
             return userId;
         }
     }
+
+    public string Email
+    {
+        get
+        {
+            var user = GetUser();
+
+            return user.FindFirstValue(ClaimTypes.Email)
+                ?? user.FindFirst("email")?.Value
+                ?? throw new InvalidOperationException(
+                    "Authenticated user email is not available.");
+        }
+    }
+
+    public string Role
+    {
+        get
+        {
+            var user = GetUser();
+
+            return user.FindFirstValue(ClaimTypes.Role)
+                ?? throw new InvalidOperationException(
+                    "Authenticated user role is not available.");
+        }
+    }
+
+    private ClaimsPrincipal GetUser()
+    {
+        return _httpContextAccessor.HttpContext?.User
+            ?? throw new InvalidOperationException(
+                "Current HTTP context is not available.");
+    }
 }

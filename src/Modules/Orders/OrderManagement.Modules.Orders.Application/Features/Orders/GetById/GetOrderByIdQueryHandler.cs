@@ -11,9 +11,10 @@ internal sealed class GetOrderByIdQueryHandler
     private readonly IOrderRepository _orderRepository;
     private readonly ICurrentUser _currentUser;
 
-    public GetOrderByIdQueryHandler(IOrderRepository orderRepository)
+    public GetOrderByIdQueryHandler(IOrderRepository orderRepository, ICurrentUser currentUser)
     {
         _orderRepository = orderRepository;
+        _currentUser = currentUser;
     }
 
     public async Task<OrderDto> Handle(
@@ -24,6 +25,11 @@ internal sealed class GetOrderByIdQueryHandler
 
         if (order is null)
             throw new OrderNotFoundException(request.OrderId);
+
+        if (order.CustomerId != _currentUser.UserId)
+        {
+            throw new OrderAccessDeniedException();
+        }
 
         return new OrderDto(
             order.Id,

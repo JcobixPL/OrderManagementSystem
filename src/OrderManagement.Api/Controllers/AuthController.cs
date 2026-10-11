@@ -56,12 +56,14 @@ public sealed class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("me-test")]
-    public IActionResult MeTest()
+    [HttpGet("me")]
+    public IActionResult Me()
     {
         return Ok(new
         {
-            userId = _currentUser.UserId
+            id = _currentUser.UserId,
+            email = _currentUser.Email,
+            role = _currentUser.Role
         });
     }
 }

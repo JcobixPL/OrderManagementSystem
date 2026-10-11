@@ -36,11 +36,18 @@ public sealed class CancelOrderCommandHandlerTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(order);
 
+        var currentUserMock = new Mock<ICurrentUser>();
+
+        currentUserMock
+            .SetupGet(x => x.UserId)
+            .Returns(order.CustomerId);
+
         var handler = new CancelOrderCommandHandler(
             orderRepositoryMock.Object,
             unitOfWorkMock.Object,
             inventoryServiceMock.Object,
-            new TestOrdersTransaction());
+            new TestOrdersTransaction(),
+            currentUserMock.Object);
 
         var command = new CancelOrderCommand(order.Id);
 

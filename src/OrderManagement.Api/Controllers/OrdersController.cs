@@ -24,6 +24,7 @@ public sealed class OrdersController : ControllerBase
         _sender = sender;
     }
 
+    [Authorize(Roles = "Customer")]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(
         Guid id,
@@ -36,7 +37,7 @@ public sealed class OrdersController : ControllerBase
         return Ok(order);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateOrderRequest request,
@@ -71,6 +72,7 @@ public sealed class OrdersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Employee,Admin")]
     [HttpPatch("{id:guid}/start-processing")]
     public async Task<IActionResult> StartProcessing(
         Guid id,
@@ -83,6 +85,7 @@ public sealed class OrdersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Employee,Admin")]
     [HttpPatch("{id:guid}/ready-for-shipment")]
     public async Task<IActionResult> MarkReadyForShipment(
         Guid id,
@@ -95,6 +98,7 @@ public sealed class OrdersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Employee,Admin")]
     [HttpPatch("{id:guid}/ship")]
     public async Task<IActionResult> MarkAsShipped(
     Guid id,
@@ -107,6 +111,7 @@ public sealed class OrdersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Employee,Admin")]
     [HttpPatch("{id:guid}/deliver")]
     public async Task<IActionResult> MarkAsDelivered(
         Guid id,
@@ -119,6 +124,7 @@ public sealed class OrdersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Customer")]
     [HttpPatch("{id:guid}/cancel")]
     public async Task<IActionResult> Cancel(
         Guid id,

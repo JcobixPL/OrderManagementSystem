@@ -77,6 +77,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             InvalidCredentialsException =>
                 StatusCodes.Status401Unauthorized,
 
+            OrderAccessDeniedException =>
+                StatusCodes.Status403Forbidden,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -130,6 +133,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             InvalidCredentialsException =>
                 "Invalid credentials",
+
+            OrderAccessDeniedException =>
+                "Access denied",
 
             _ =>
                 "An unexpected error occured"

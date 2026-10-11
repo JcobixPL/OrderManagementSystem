@@ -9,6 +9,7 @@ internal sealed class GetOrderByIdQueryHandler
     : IRequestHandler<GetOrderByIdQuery, OrderDto>
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly ICurrentUser _currentUser;
 
     public GetOrderByIdQueryHandler(IOrderRepository orderRepository)
     {

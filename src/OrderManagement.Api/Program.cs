@@ -57,8 +57,8 @@ builder.Services.AddScoped<NpgsqlConnection>(
     _ => new NpgsqlConnection(connectionString));
 
 builder.Services.AddProductsModule(connectionString);
-builder.Services.AddInventoryModule(connectionString);
-builder.Services.AddOrdersModule(connectionString);
+builder.Services.AddInventoryModule();
+builder.Services.AddOrdersModule();
 builder.Services.AddIdentityModule(connectionString, builder.Configuration);
 
 builder.Services.AddScoped<IOrdersTransaction, OrdersTransaction>();

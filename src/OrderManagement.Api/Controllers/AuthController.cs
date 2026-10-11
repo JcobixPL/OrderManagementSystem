@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Api.Authentication;
 using OrderManagement.Api.Contracts.Identity;
 using OrderManagement.Modules.Identity.Application.Features.Auth.Login;
 using OrderManagement.Modules.Identity.Application.Features.Auth.Register;
+using OrderManagement.Modules.Orders.Application.Abstractions;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -12,10 +14,12 @@ namespace OrderManagement.Api.Controllers;
 public sealed class AuthController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly ICurrentUser _currentUser;
 
-    public AuthController(ISender sender)
+    public AuthController(ISender sender, ICurrentUser currentUser)
     {
         _sender = sender;
+        _currentUser = currentUser;
     }
 
     [HttpPost("register")]
@@ -57,7 +61,7 @@ public sealed class AuthController : ControllerBase
     {
         return Ok(new
         {
-            message = "You are authenticated."
+            userId = _currentUser.UserId
         });
     }
 }

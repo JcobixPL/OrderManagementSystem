@@ -7,10 +7,6 @@ internal sealed class CreateOrderCommandValidator
 {
     public CreateOrderCommandValidator()
     {
-        RuleFor(x => x.CustomerId)
-            .NotEmpty()
-            .WithMessage("Customer ID cannot be empty.");
-
         RuleFor(x => x.Items)
             .NotEmpty()
             .WithMessage("Order must contain at least one item.");

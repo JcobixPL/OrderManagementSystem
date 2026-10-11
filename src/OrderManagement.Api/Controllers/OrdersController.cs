@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Contracts.Orders;
 using OrderManagement.Modules.Orders.Application.Features.Orders.Cancel;
@@ -35,13 +36,13 @@ public sealed class OrdersController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateOrderRequest request,
         CancellationToken cancellationToken)
     {
         var command = new CreateOrderCommand(
-            request.CustomerId,
             request.Items
                 .Select(item => new CreateOrderItem(
                     item.ProductId,

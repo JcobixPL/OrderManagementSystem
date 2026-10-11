@@ -11,7 +11,6 @@ public sealed class CreateOrderCommandValidatorTests
         var productId = Guid.NewGuid();
 
         var command = new CreateOrderCommand(
-            Guid.NewGuid(),
             new[]
             {
                 new CreateOrderItem(productId, 1),

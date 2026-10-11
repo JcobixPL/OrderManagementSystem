@@ -23,7 +23,6 @@ public sealed class CreateOrderCommandHandlerTests
             true);
 
         var command = new CreateOrderCommand(
-            customerId,
             new[]
             {
                 new CreateOrderItem(productId, 2)
@@ -33,7 +32,9 @@ public sealed class CreateOrderCommandHandlerTests
         var inventoryServiceMock = new Mock<IInventoryService>();
         var orderRepositoryMock = new Mock<IOrderRepository>();
         var unitOfWorkMock = new Mock<IOrdersUnitOfWork>();
-        
+        var currentUserMock = new Mock<ICurrentUser>();
+
+
         productCatalogMock
             .Setup(x => x.GetByIdAsync(
                 productId,
@@ -50,12 +51,17 @@ public sealed class CreateOrderCommandHandlerTests
                 (order, _) => capturedOrder = order)
             .Returns(Task.CompletedTask);
 
+        currentUserMock
+            .SetupGet(x => x.UserId)
+             .Returns(customerId);
+
         var handler = new CreateOrderCommandHandler(
             productCatalogMock.Object,
             inventoryServiceMock.Object,
             orderRepositoryMock.Object,
             unitOfWorkMock.Object,
-            new TestOrdersTransaction());
+            new TestOrdersTransaction(),
+            currentUserMock.Object);
 
         //Act
         var orderId = await handler.Handle(

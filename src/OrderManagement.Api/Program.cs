@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Npgsql;
+using OrderManagement.Api.Authentication;
 using OrderManagement.Api.Exceptions;
 using OrderManagement.Api.Infrastructure.Transactions;
 using OrderManagement.Modules.Identity.Infrastructure;
@@ -64,6 +65,9 @@ builder.Services.AddScoped<IOrdersTransaction, OrdersTransaction>();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

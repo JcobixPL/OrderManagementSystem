@@ -13,19 +13,22 @@ internal sealed class CreateOrderCommandHandler
     private readonly IOrderRepository _orderRepository;
     private readonly IOrdersUnitOfWork _unitOfWork;
     private readonly IOrdersTransaction _transaction;
+    private readonly ICurrentUser _currentUser;
 
     public CreateOrderCommandHandler(
         IProductCatalog productCatalog, 
         IInventoryService inventoryService, 
         IOrderRepository orderRepository, 
         IOrdersUnitOfWork ordersUnitOfWork,
-        IOrdersTransaction ordersTransactions)
+        IOrdersTransaction ordersTransactions,
+        ICurrentUser currentUser)
     {
         _productCatalog = productCatalog;
         _inventoryService = inventoryService;
         _orderRepository = orderRepository;
         _unitOfWork = ordersUnitOfWork;
         _transaction = ordersTransactions;
+        _currentUser = currentUser;
     }
 
     public async Task<Guid> Handle(
@@ -56,7 +59,7 @@ internal sealed class CreateOrderCommandHandler
         var firstProduct = resolvedItems[0].Product;
 
         var order = new Order(
-            request.CustomerId,
+            _currentUser.UserId,
             firstProduct.Currency);
 
         foreach (var item in resolvedItems)

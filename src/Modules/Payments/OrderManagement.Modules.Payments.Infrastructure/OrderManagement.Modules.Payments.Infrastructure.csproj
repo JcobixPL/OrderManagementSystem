@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderManagement.Modules.Payments.Application\OrderManagement.Modules.Payments.Application.csproj" />
     <ProjectReference Include="..\OrderManagement.Modules.Payments.Domain\OrderManagement.Modules.Payments.Domain.csproj" />
+    <ProjectReference Include="..\..\Orders\OrderManagement.Modules.Orders.Application\OrderManagement.Modules.Orders.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

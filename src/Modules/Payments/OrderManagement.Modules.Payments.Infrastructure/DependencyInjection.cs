@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagement.Modules.Payments.Application.Abstractions;
+using OrderManagement.Modules.Payments.Application.Features.Payments.Create;
+using OrderManagement.Modules.Payments.Infrastructure.Integrations;
 using OrderManagement.Modules.Payments.Infrastructure.Persistence;
 using OrderManagement.Modules.Payments.Infrastructure.Repositories;
 
@@ -15,7 +18,17 @@ public static class DependencyInjection
         services.AddDbContext<PaymentsDbContext>(options =>
             options.UseNpgsql(connectionString));
 
+        services.AddMediatR(config =>
+            config.RegisterServicesFromAssembly(
+                typeof(CreatePaymentCommand).Assembly));
+
+        services.AddValidatorsFromAssembly(
+            typeof(CreatePaymentCommand).Assembly,
+            includeInternalTypes: true);
+
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+        services.AddScoped<IOrderPaymentDetailsProvider, OrderPaymentDetailsProvider>();
 
         services.AddScoped<IPaymentsUnitOfWork>(
             sp => sp.GetRequiredService<PaymentsDbContext>());

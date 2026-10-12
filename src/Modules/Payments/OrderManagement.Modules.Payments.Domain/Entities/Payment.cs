@@ -5,6 +5,8 @@ namespace OrderManagement.Modules.Payments.Domain.Entities;
 
 public sealed class Payment
 {
+    private readonly List<PaymentAttempt> _attempts = [];
+
     public Guid Id { get; private set; }
     public Guid OrderId { get; private set; }
     public decimal Amount { get; private set; }
@@ -12,6 +14,7 @@ public sealed class Payment
     public PaymentStatus Status { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? PaidAt { get; private set; }
+    public IReadOnlyCollection<PaymentAttempt> Attempts => _attempts.AsReadOnly();
 
     private Payment() { }
 
@@ -21,23 +24,54 @@ public sealed class Payment
         string currency)
     {
         if (orderId == Guid.Empty)
-            throw new ArgumentException("Order ID cannot be empty.", nameof(orderId));
+            throw new ArgumentException(
+                "Order ID cannot be empty.",
+                nameof(orderId));
 
         if (amount <= 0)
-            throw new ArgumentException("Amount must be greater than zero.", nameof(amount));
+            throw new ArgumentOutOfRangeException(
+                nameof(amount),
+                "Amount must be greater than zero.");
 
         if (string.IsNullOrWhiteSpace(currency))
-            throw new ArgumentException("Currency is required.", nameof(currency));
+            throw new ArgumentException(
+                "Currency is required.",
+                nameof(currency));
 
         Id = Guid.NewGuid();
         OrderId = orderId;
         Amount = amount;
-        Currency = currency;
+        Currency = currency.Trim().ToUpperInvariant();
         Status = PaymentStatus.Pending;
         CreatedAt = DateTimeOffset.UtcNow;
     }
 
-    public void Complete()
+    public PaymentAttempt CreateAttempt()
+    {
+        if (Status != PaymentStatus.Pending)
+        {
+            throw new InvalidPaymentStatusTransitionException(
+                Status,
+                PaymentStatus.Pending);
+        }
+
+        var hasPendingAttempt = _attempts.Any(
+            x => x.Status == PaymentAttemptStatus.Pending);
+
+        if (hasPendingAttempt)
+        {
+            throw new InvalidOperationException(
+                "Payment already has a pending attempt.");
+        }
+
+        var attempt = new PaymentAttempt(Id);
+
+        _attempts.Add(attempt);
+
+        return attempt;
+    }
+
+    public void Complete(PaymentAttempt attempt)
     {
         if (Status != PaymentStatus.Pending)
         {
@@ -46,20 +80,20 @@ public sealed class Payment
                 PaymentStatus.Completed);
         }
 
-        Status = PaymentStatus.Completed;
-        PaidAt = DateTimeOffset.UtcNow;
-    }
-
-    public void Fail()
-    {
-        if (Status != PaymentStatus.Pending)
+        if (!_attempts.Contains(attempt))
         {
-            throw new InvalidPaymentStatusTransitionException(
-                Status,
-                PaymentStatus.Failed);
+            throw new InvalidOperationException(
+                "Payment attempt does not belong to this payment.");
         }
 
-        Status = PaymentStatus.Failed;
+        if (attempt.Status != PaymentAttemptStatus.Completed)
+        {
+            throw new InvalidOperationException(
+                "Payment attempt must be completed first.");
+        }
+
+        Status = PaymentStatus.Completed;
+        PaidAt = DateTimeOffset.UtcNow;
     }
 
     public void Cancel()

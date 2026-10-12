@@ -10,6 +10,7 @@ using OrderManagement.Modules.Inventory.Infrastructure;
 using OrderManagement.Modules.Orders.Application.Abstractions;
 using OrderManagement.Modules.Orders.Infrastructure;
 using OrderManagement.Modules.Products.Infrastructure;
+using OrderManagement.Modules.Payments.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +61,7 @@ builder.Services.AddProductsModule(connectionString);
 builder.Services.AddInventoryModule();
 builder.Services.AddOrdersModule();
 builder.Services.AddIdentityModule(connectionString, builder.Configuration);
+builder.Services.AddPaymentsModule(connectionString);
 
 builder.Services.AddScoped<IOrdersTransaction, OrdersTransaction>();
 

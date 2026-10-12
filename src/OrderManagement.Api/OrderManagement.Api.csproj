@@ -23,6 +23,7 @@
     <ProjectReference Include="..\Modules\Inventory\OrderManagement.Modules.Inventory.Infrastructure\OrderManagement.Modules.Inventory.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Orders\OrderManagement.Modules.Orders.Infrastructure\OrderManagement.Modules.Orders.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Identity\OrderManagement.Modules.Identity.Infrastructure\OrderManagement.Modules.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Payments\OrderManagement.Modules.Payments.Infrastructure\OrderManagement.Modules.Payments.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

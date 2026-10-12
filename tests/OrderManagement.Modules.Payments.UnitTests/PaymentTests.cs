@@ -9,88 +9,139 @@ public sealed class PaymentTests
     [Fact]
     public void Constructor_ShouldCreatePendingPayment_WhenDataIsValid()
     {
-        // Arrange
         var orderId = Guid.NewGuid();
 
-        // Act
         var payment = new Payment(
             orderId,
-            100.00m,
-            "PLN");
+            199.99m,
+            "pln");
 
-        // Assert
         Assert.NotEqual(Guid.Empty, payment.Id);
         Assert.Equal(orderId, payment.OrderId);
-        Assert.Equal(100.00m, payment.Amount);
+        Assert.Equal(199.99m, payment.Amount);
         Assert.Equal("PLN", payment.Currency);
         Assert.Equal(PaymentStatus.Pending, payment.Status);
+        Assert.Empty(payment.Attempts);
         Assert.Null(payment.PaidAt);
     }
 
     [Fact]
-    public void Complete_ShouldSetStatusToCompletedAndSetPaidAt()
+    public void CreateAttempt_ShouldAddPendingAttempt()
     {
-        // Arrange
-        var payment = new Payment(
-            Guid.NewGuid(),
-            100.00m,
-            "PLN");
-
-        // Act
-        payment.Complete();
-
-        // Assert
-        Assert.Equal(PaymentStatus.Completed, payment.Status);
-        Assert.NotNull(payment.PaidAt);
-    }
-
-    [Fact]
-    public void Fail_ShouldSetStatusToFailed()
-    {
-        // Arrange
         var payment = new Payment(
             Guid.NewGuid(),
             100m,
             "PLN");
 
-        // Act
-        payment.Fail();
+        var attempt = payment.CreateAttempt();
 
-        // Assert
-        Assert.Equal(PaymentStatus.Failed, payment.Status);
-        Assert.Null(payment.PaidAt);
+        Assert.Single(payment.Attempts);
+        Assert.Equal(PaymentAttemptStatus.Pending, attempt.Status);
+        Assert.Equal(payment.Id, attempt.PaymentId);
+    }
+
+    [Fact]
+    public void CreateAttempt_ShouldThrow_WhenPendingAttemptAlreadyExists()
+    {
+        var payment = new Payment(
+            Guid.NewGuid(),
+            100m,
+            "PLN");
+
+        payment.CreateAttempt();
+
+        Assert.Throws<InvalidOperationException>(
+            () => payment.CreateAttempt());
+    }
+
+    [Fact]
+    public void CreateAttempt_ShouldAllowRetry_WhenPreviousAttemptFailed()
+    {
+        var payment = new Payment(
+            Guid.NewGuid(),
+            100m,
+            "PLN");
+
+        var firstAttempt = payment.CreateAttempt();
+
+        firstAttempt.Fail("Card declined");
+
+        var secondAttempt = payment.CreateAttempt();
+
+        Assert.Equal(2, payment.Attempts.Count);
+        Assert.Equal(
+            PaymentAttemptStatus.Failed,
+            firstAttempt.Status);
+        Assert.Equal(
+            PaymentAttemptStatus.Pending,
+            secondAttempt.Status);
+    }
+
+    [Fact]
+    public void Complete_ShouldCompletePayment_WhenAttemptIsCompleted()
+    {
+        var payment = new Payment(
+            Guid.NewGuid(),
+            100m,
+            "PLN");
+
+        var attempt = payment.CreateAttempt();
+
+        attempt.Complete("external-payment-123");
+
+        payment.Complete(attempt);
+
+        Assert.Equal(
+            PaymentStatus.Completed,
+            payment.Status);
+
+        Assert.NotNull(payment.PaidAt);
+    }
+
+    [Fact]
+    public void Complete_ShouldThrow_WhenAttemptIsStillPending()
+    {
+        var payment = new Payment(
+            Guid.NewGuid(),
+            100m,
+            "PLN");
+
+        var attempt = payment.CreateAttempt();
+
+        Assert.Throws<InvalidOperationException>(
+            () => payment.Complete(attempt));
     }
 
     [Fact]
     public void Cancel_ShouldSetStatusToCancelled()
     {
-        // Arrange
         var payment = new Payment(
             Guid.NewGuid(),
             100m,
             "PLN");
 
-        // Act
         payment.Cancel();
 
-        // Assert
-        Assert.Equal(PaymentStatus.Cancelled, payment.Status);
-        Assert.Null(payment.PaidAt);
+        Assert.Equal(
+            PaymentStatus.Cancelled,
+            payment.Status);
     }
 
     [Fact]
-    public void Complete_ShouldThrow_WhenPaymentIsNotPending()
+    public void CreateAttempt_ShouldThrow_WhenPaymentIsCompleted()
     {
-        // Arrange
         var payment = new Payment(
             Guid.NewGuid(),
             100m,
             "PLN");
 
-        payment.Fail();
+        var attempt = payment.CreateAttempt();
 
-        // Act & Assert
+        attempt.Complete("external-payment-123");
+
+        payment.Complete(attempt);
+
         Assert.Throws<InvalidPaymentStatusTransitionException>(
-            () => payment.Complete());
+            () => payment.CreateAttempt());
     }
 }

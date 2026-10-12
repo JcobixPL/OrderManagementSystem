@@ -18,6 +18,11 @@
     <Project Path="src/Modules/Orders/OrderManagement.Modules.Orders.Domain/OrderManagement.Modules.Orders.Domain.csproj" />
     <Project Path="src/Modules/Orders/OrderManagement.Modules.Orders.Infrastructure/OrderManagement.Modules.Orders.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/Payments/">
+    <Project Path="src/Modules/Payments/OrderManagement.Modules.Payments.Application/OrderManagement.Modules.Payments.Application.csproj" />
+    <Project Path="src/Modules/Payments/OrderManagement.Modules.Payments.Domain/OrderManagement.Modules.Payments.Domain.csproj" />
+    <Project Path="src/Modules/Payments/OrderManagement.Modules.Payments.Infrastructure/OrderManagement.Modules.Payments.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Products/">
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Application/OrderManagement.Modules.Products.Application.csproj" />
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Domain/OrderManagement.Modules.Products.Domain.csproj" />
@@ -27,6 +32,7 @@
     <Project Path="tests/OrderManagement.Modules.Identity.UnitTests/OrderManagement.Modules.Identity.UnitTests.csproj" />
     <Project Path="tests/OrderManagement.Modules.Inventory.UnitTests/OrderManagement.Modules.Inventory.UnitTests.csproj" />
     <Project Path="tests/OrderManagement.Modules.Orders.UnitTests/OrderManagement.Modules.Orders.UnitTests.csproj" />
+    <Project Path="tests/OrderManagement.Modules.Payments.UnitTests/OrderManagement.Modules.Payments.UnitTests.csproj" />
     <Project Path="tests/OrderManagement.Modules.Products.UnitTests/OrderManagement.Modules.Products.UnitTests.csproj" />
   </Folder>
 </Solution>

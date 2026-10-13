@@ -9,6 +9,7 @@ public interface IOrderPaymentDetailsProvider
 
 public sealed record OrderPaymentDetails(
     Guid OrderId,
+    Guid CustomerId,
     decimal TotalAmount,
     string Currency,
     string Status);

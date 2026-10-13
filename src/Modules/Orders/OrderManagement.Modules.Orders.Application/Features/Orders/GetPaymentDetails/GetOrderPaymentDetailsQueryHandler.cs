@@ -30,6 +30,7 @@ internal sealed class GetOrderPaymentDetailsQueryHandler
 
         return new OrderPaymentDetailsDto(
             order.Id,
+            order.CustomerId,
             order.TotalAmount,
             order.Currency,
             order.Status.ToString());

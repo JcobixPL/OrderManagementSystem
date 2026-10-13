@@ -1,9 +1,10 @@
 ﻿using OrderManagement.Modules.Orders.Application.Abstractions;
+using OrderManagement.Modules.Payments.Application.Abstractions;
 using System.Security.Claims;
 
 namespace OrderManagement.Api.Authentication;
 
-internal sealed class CurrentUser : ICurrentUser
+internal sealed class CurrentUser : ICurrentUser, IPaymentCurrentUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -22,6 +22,9 @@ internal sealed class PaymentConfiguration
         builder.HasIndex(x => x.OrderId)
             .IsUnique();
 
+        builder.Property(x => x.CustomerId)
+            .IsRequired();
+
         builder.Property(x => x.Amount)
             .HasPrecision(18, 2)
             .IsRequired();

@@ -2,6 +2,7 @@
 
 public sealed record OrderPaymentDetailsDto(
     Guid OrderId,
+    Guid CustomerId,
     decimal TotalAmount,
     string Currency,
     string Status);

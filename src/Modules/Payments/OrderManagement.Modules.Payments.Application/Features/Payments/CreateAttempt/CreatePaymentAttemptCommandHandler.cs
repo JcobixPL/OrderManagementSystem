@@ -9,13 +9,16 @@ internal sealed class CreatePaymentAttemptCommandHandler
 {
     private readonly IPaymentRepository _paymentRepository;
     private readonly IPaymentsUnitOfWork _unitOfWork;
+    private readonly IPaymentCurrentUser _currentUser;
 
     public CreatePaymentAttemptCommandHandler(
         IPaymentRepository paymentRepository,
-        IPaymentsUnitOfWork unitOfWork)
+        IPaymentsUnitOfWork unitOfWork,
+        IPaymentCurrentUser currentUser)
     {
         _paymentRepository = paymentRepository;
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
     }
 
     public async Task<Guid> Handle(
@@ -26,6 +29,9 @@ internal sealed class CreatePaymentAttemptCommandHandler
 
         if (payment is null)
             throw new PaymentNotFoundException(request.PaymentId);
+
+        if (payment.CustomerId != _currentUser.UserId)
+            throw new PaymentAccessDeniedException();
 
         var attempt = payment.CreateAttempt();
 

@@ -24,6 +24,7 @@ internal sealed class OrderPaymentDetailsProvider
 
         return new OrderPaymentDetails(
             order.OrderId,
+            order.CustomerId,
             order.TotalAmount,
             order.Currency,
             order.Status);

@@ -13,6 +13,7 @@ public sealed class PaymentTests
 
         var payment = new Payment(
             orderId,
+            Guid.NewGuid(),
             199.99m,
             "pln");
 
@@ -30,6 +31,7 @@ public sealed class PaymentTests
     {
         var payment = new Payment(
             Guid.NewGuid(),
+            Guid.NewGuid(),
             100m,
             "PLN");
 
@@ -45,6 +47,7 @@ public sealed class PaymentTests
     {
         var payment = new Payment(
             Guid.NewGuid(),
+            Guid.NewGuid(),
             100m,
             "PLN");
 
@@ -58,6 +61,7 @@ public sealed class PaymentTests
     public void CreateAttempt_ShouldAllowRetry_WhenPreviousAttemptFailed()
     {
         var payment = new Payment(
+            Guid.NewGuid(),
             Guid.NewGuid(),
             100m,
             "PLN");
@@ -82,6 +86,7 @@ public sealed class PaymentTests
     {
         var payment = new Payment(
             Guid.NewGuid(),
+            Guid.NewGuid(),
             100m,
             "PLN");
 
@@ -103,6 +108,7 @@ public sealed class PaymentTests
     {
         var payment = new Payment(
             Guid.NewGuid(),
+            Guid.NewGuid(),
             100m,
             "PLN");
 
@@ -116,6 +122,7 @@ public sealed class PaymentTests
     public void Cancel_ShouldSetStatusToCancelled()
     {
         var payment = new Payment(
+            Guid.NewGuid(),
             Guid.NewGuid(),
             100m,
             "PLN");
@@ -131,6 +138,7 @@ public sealed class PaymentTests
     public void CreateAttempt_ShouldThrow_WhenPaymentIsCompleted()
     {
         var payment = new Payment(
+            Guid.NewGuid(),
             Guid.NewGuid(),
             100m,
             "PLN");

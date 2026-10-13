@@ -10,15 +10,18 @@ internal sealed class CreatePaymentCommandHandler
     private readonly IPaymentRepository _paymentRepository;
     private readonly IPaymentsUnitOfWork _unitOfWork;
     private readonly IOrderPaymentDetailsProvider _orderPaymentDetailsProvider;
+    private readonly IPaymentCurrentUser _currentUser;
 
     public CreatePaymentCommandHandler(
         IPaymentRepository paymentRepository,
         IPaymentsUnitOfWork unitOfWork,
-        IOrderPaymentDetailsProvider orderPaymentDetailsProvider)
+        IOrderPaymentDetailsProvider orderPaymentDetailsProvider,
+        IPaymentCurrentUser paymentCurrentUser)
     {
         _paymentRepository = paymentRepository;
         _unitOfWork = unitOfWork;
         _orderPaymentDetailsProvider = orderPaymentDetailsProvider;
+        _currentUser = paymentCurrentUser;
     }
 
     public async Task<Guid> Handle(
@@ -44,6 +47,9 @@ internal sealed class CreatePaymentCommandHandler
                 $"Order '{request.OrderId}' was not found.");
         }
 
+        if (order.CustomerId != _currentUser.UserId)
+            throw new PaymentAccessDeniedException();
+        
         if (order.Status != "AwaitingPayment")
         {
             throw new OrderNotPayableException(
@@ -53,6 +59,7 @@ internal sealed class CreatePaymentCommandHandler
 
         var payment = new Payment(
             order.OrderId,
+            order.CustomerId,
             order.TotalAmount,
             order.Currency);
 

@@ -9,6 +9,7 @@ public sealed class Payment
 
     public Guid Id { get; private set; }
     public Guid OrderId { get; private set; }
+    public Guid CustomerId { get; private set; }
     public decimal Amount { get; private set; }
     public string Currency { get; private set; } = null!;
     public PaymentStatus Status { get; private set; }
@@ -20,6 +21,7 @@ public sealed class Payment
 
     public Payment(
         Guid orderId,
+        Guid customerId,
         decimal amount,
         string currency)
     {
@@ -27,6 +29,11 @@ public sealed class Payment
             throw new ArgumentException(
                 "Order ID cannot be empty.",
                 nameof(orderId));
+
+        if (customerId == Guid.Empty)
+            throw new ArgumentException(
+                "Customer ID cannot be empty.",
+                nameof(customerId));
 
         if (amount <= 0)
             throw new ArgumentOutOfRangeException(
@@ -40,6 +47,7 @@ public sealed class Payment
 
         Id = Guid.NewGuid();
         OrderId = orderId;
+        CustomerId = customerId;
         Amount = amount;
         Currency = currency.Trim().ToUpperInvariant();
         Status = PaymentStatus.Pending;

@@ -12,6 +12,7 @@ using OrderManagement.Modules.Orders.Infrastructure;
 using OrderManagement.Modules.Products.Infrastructure;
 using OrderManagement.Modules.Payments.Infrastructure;
 using System.Text;
+using OrderManagement.Modules.Payments.Application.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IPaymentCurrentUser, CurrentUser>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

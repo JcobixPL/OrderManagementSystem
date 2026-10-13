@@ -26,7 +26,6 @@ namespace OrderManagement.Modules.Payments.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("OrderManagement.Modules.Payments.Domain.Entities.Payment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Amount")
@@ -40,6 +39,9 @@ namespace OrderManagement.Modules.Payments.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
@@ -61,7 +63,6 @@ namespace OrderManagement.Modules.Payments.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("OrderManagement.Modules.Payments.Domain.Entities.PaymentAttempt", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("CompletedAt")

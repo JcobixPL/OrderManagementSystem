@@ -8,13 +8,16 @@ internal sealed class FailPaymentAttemptCommandHandler : IRequestHandler<FailPay
 {
     private readonly IPaymentRepository _paymentRepository;
     private readonly IPaymentsUnitOfWork _unitOfWork;
+    private readonly IPaymentCurrentUser _currentUser;
 
     public FailPaymentAttemptCommandHandler(
         IPaymentRepository paymentRepository,
-        IPaymentsUnitOfWork unitOfWork)
+        IPaymentsUnitOfWork unitOfWork,
+        IPaymentCurrentUser paymentCurrentUser)
     {
         _paymentRepository = paymentRepository;
         _unitOfWork = unitOfWork;
+        _currentUser = paymentCurrentUser;
     }
 
     public async Task Handle(
@@ -25,6 +28,9 @@ internal sealed class FailPaymentAttemptCommandHandler : IRequestHandler<FailPay
 
         if (payment is null)
             throw new PaymentNotFoundException(request.PaymentId);
+
+        if (payment.CustomerId != _currentUser.UserId)
+            throw new PaymentAccessDeniedException();
 
         var attempt = payment.Attempts.FirstOrDefault(a => a.Id == request.AttemptId);
 

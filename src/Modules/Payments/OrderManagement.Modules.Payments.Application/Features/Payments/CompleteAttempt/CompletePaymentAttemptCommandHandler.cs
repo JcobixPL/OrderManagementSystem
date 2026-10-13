@@ -10,15 +10,18 @@ internal sealed class CompletePaymentAttemptCommandHandler
     private readonly IPaymentRepository _paymentRepository;
     private readonly IPaymentsUnitOfWork _unitOfWork;
     private readonly IOrderPaymentStatusUpdater _orderPaymentStatusUpdater;
+    private readonly IPaymentCurrentUser _currentUser;
 
     public CompletePaymentAttemptCommandHandler(
         IPaymentRepository paymentRepository,
         IPaymentsUnitOfWork unitOfWork,
-        IOrderPaymentStatusUpdater orderPaymentStatusUpdater)
+        IOrderPaymentStatusUpdater orderPaymentStatusUpdater,
+        IPaymentCurrentUser paymentCurrentUser)
     {
         _paymentRepository = paymentRepository;
         _unitOfWork = unitOfWork;
         _orderPaymentStatusUpdater = orderPaymentStatusUpdater;
+        _currentUser = paymentCurrentUser;
     }
 
     public async Task Handle(
@@ -31,6 +34,9 @@ internal sealed class CompletePaymentAttemptCommandHandler
 
         if (payment is null)
             throw new PaymentNotFoundException(request.PaymentId);
+
+        if (payment.CustomerId != _currentUser.UserId)
+            throw new PaymentAccessDeniedException();
 
         var attempt = payment.Attempts
             .FirstOrDefault(a => a.Id == request.AttemptId);

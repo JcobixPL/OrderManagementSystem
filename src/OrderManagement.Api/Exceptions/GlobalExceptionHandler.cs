@@ -100,6 +100,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             PaymentAttemptNotFoundException =>
                 StatusCodes.Status404NotFound,
 
+            PaymentAccessDeniedException =>
+                StatusCodes.Status403Forbidden,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -174,6 +177,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             PaymentAttemptNotFoundException =>
                 "Payment attempt not found",
+
+            PaymentAccessDeniedException =>
+                "Payment access denied",
 
             _ =>
                 "An unexpected error occured"

@@ -50,7 +50,7 @@ public sealed class PaymentTests
 
         payment.CreateAttempt();
 
-        Assert.Throws<InvalidOperationException>(
+        Assert.Throws<PendingPaymentAttemptAlreadyExistsException>(
             () => payment.CreateAttempt());
     }
 

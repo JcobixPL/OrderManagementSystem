@@ -4,6 +4,8 @@ using OrderManagement.Modules.Payments.Application.Exceptions;
 using OrderManagement.Modules.Payments.Application.Features.Payments.Create;
 using OrderManagement.Modules.Payments.Domain.Entities;
 
+namespace OrderManagement.Modules.Payments.Application.Features.Payments.Create;
+
 internal sealed class CreatePaymentCommandHandler
     : IRequestHandler<CreatePaymentCommand, Guid>
 {

@@ -6,6 +6,7 @@ using OrderManagement.Modules.Payments.Application.Features.Payments.CompleteAtt
 using OrderManagement.Modules.Payments.Application.Features.Payments.Create;
 using OrderManagement.Modules.Payments.Application.Features.Payments.CreateAttempt;
 using OrderManagement.Modules.Payments.Application.Features.Payments.FailAttempt;
+using OrderManagement.Modules.Payments.Application.Features.Payments.GetById;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -18,6 +19,19 @@ public sealed class PaymentsController : ControllerBase
     public PaymentsController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [Authorize(Roles = "Customer")]
+    [HttpGet("{paymentId:guid}")]
+    public async Task<IActionResult> GetById(
+        Guid paymentId,
+        CancellationToken cancellationToken)
+    {
+        var payment = await _sender.Send(
+            new GetPaymentByIdQuery(paymentId),
+            cancellationToken);
+
+        return Ok(payment);
     }
 
     [Authorize(Roles = "Customer")]

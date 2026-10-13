@@ -60,8 +60,7 @@ public sealed class Payment
 
         if (hasPendingAttempt)
         {
-            throw new InvalidOperationException(
-                "Payment already has a pending attempt.");
+            throw new PendingPaymentAttemptAlreadyExistsException();
         }
 
         var attempt = new PaymentAttempt(Id);

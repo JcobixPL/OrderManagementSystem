@@ -6,6 +6,8 @@ using OrderManagement.Modules.Inventory.Application.Exceptions;
 using OrderManagement.Modules.Inventory.Domain.Exceptions;
 using OrderManagement.Modules.Orders.Application.Exceptions;
 using OrderManagement.Modules.Orders.Domain.Exceptions;
+using OrderManagement.Modules.Payments.Application.Exceptions;
+using OrderManagement.Modules.Payments.Domain.Exceptions;
 using OrderManagement.Modules.Products.Application.Exceptions;
 
 namespace OrderManagement.Api.Exceptions;
@@ -80,6 +82,24 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             OrderAccessDeniedException =>
                 StatusCodes.Status403Forbidden,
 
+            PaymentAlreadyExistsException =>
+                StatusCodes.Status409Conflict,
+
+            OrderNotPayableException =>
+                StatusCodes.Status409Conflict,
+
+            PendingPaymentAttemptAlreadyExistsException =>
+                StatusCodes.Status409Conflict,
+
+            InvalidPaymentAttemptStatusTransitionException =>
+                StatusCodes.Status409Conflict,
+
+            PaymentNotFoundException =>
+                StatusCodes.Status404NotFound,
+
+            PaymentAttemptNotFoundException =>
+                StatusCodes.Status404NotFound,
+
             _ =>
                 StatusCodes.Status500InternalServerError
         };
@@ -136,6 +156,24 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             OrderAccessDeniedException =>
                 "Access denied",
+
+            PaymentAlreadyExistsException =>
+                "Payment already exists",
+
+            OrderNotPayableException =>
+                "Order cannot be paid",
+
+            PendingPaymentAttemptAlreadyExistsException =>
+                "Pending payment attempt already exists",
+
+            InvalidPaymentAttemptStatusTransitionException =>
+                "Invalid payment attempt status transition",
+
+            PaymentNotFoundException =>
+                "Payment not found",
+
+            PaymentAttemptNotFoundException =>
+                "Payment attempt not found",
 
             _ =>
                 "An unexpected error occured"

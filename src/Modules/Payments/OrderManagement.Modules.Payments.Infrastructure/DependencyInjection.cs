@@ -30,6 +30,8 @@ public static class DependencyInjection
 
         services.AddScoped<IOrderPaymentDetailsProvider, OrderPaymentDetailsProvider>();
 
+        services.AddScoped<IOrderPaymentStatusUpdater, OrderPaymentStatusUpdater>();
+
         services.AddScoped<IPaymentsUnitOfWork>(
             sp => sp.GetRequiredService<PaymentsDbContext>());
 

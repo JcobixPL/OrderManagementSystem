@@ -13,6 +13,9 @@ internal sealed class PaymentConfiguration
 
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
         builder.Property(x => x.OrderId)
             .IsRequired();
 

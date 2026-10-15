@@ -28,11 +28,15 @@
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Domain/OrderManagement.Modules.Products.Domain.csproj" />
     <Project Path="src/Modules/Products/OrderManagement.Modules.Products.Infrastructure/OrderManagement.Modules.Products.Infrastructure.csproj" />
   </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/OrderManagement.Modules.Identity.UnitTests/OrderManagement.Modules.Identity.UnitTests.csproj" />
-    <Project Path="tests/OrderManagement.Modules.Inventory.UnitTests/OrderManagement.Modules.Inventory.UnitTests.csproj" />
-    <Project Path="tests/OrderManagement.Modules.Orders.UnitTests/OrderManagement.Modules.Orders.UnitTests.csproj" />
-    <Project Path="tests/OrderManagement.Modules.Payments.UnitTests/OrderManagement.Modules.Payments.UnitTests.csproj" />
-    <Project Path="tests/OrderManagement.Modules.Products.UnitTests/OrderManagement.Modules.Products.UnitTests.csproj" />
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Integration/">
+    <Project Path="tests/Integration/OrderManagement.IntegrationTests/OrderManagement.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Unit/">
+    <Project Path="tests/Unit/OrderManagement.Modules.Identity.UnitTests/OrderManagement.Modules.Identity.UnitTests.csproj" />
+    <Project Path="tests/Unit/OrderManagement.Modules.Inventory.UnitTests/OrderManagement.Modules.Inventory.UnitTests.csproj" />
+    <Project Path="tests/Unit/OrderManagement.Modules.Orders.UnitTests/OrderManagement.Modules.Orders.UnitTests.csproj" />
+    <Project Path="tests/Unit/OrderManagement.Modules.Payments.UnitTests/OrderManagement.Modules.Payments.UnitTests.csproj" />
+    <Project Path="tests/Unit/OrderManagement.Modules.Products.UnitTests/OrderManagement.Modules.Products.UnitTests.csproj" />
   </Folder>
 </Solution>
